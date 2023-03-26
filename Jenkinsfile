@@ -3,13 +3,13 @@ pipeline {
 
         agent any
 
-        stages {
+        stages{
 
                       stage('Sonarqube quality check'){
 
                             agent{
 
-                                docker {
+                                docker{
                                    image 'maven'
                                 }
                             }
