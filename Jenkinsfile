@@ -3,7 +3,7 @@ pipeline {
 
         agent any
 
-        stages {
+        stages{
 
                       stage('Sonarqube quality check'){
 
@@ -19,13 +19,23 @@ pipeline {
                               script{
                                           withSonarQubeEnv(credentialsId: 'sonar-token') {
                                             sh 'mvn clean package sonar:sonar'
-
                                           }
 
                               }
                           }
 
                       }
+
+                        stage('Quality Gate status'){
+
+                            steps{
+
+                                script{
+                                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
+                                }
+                            }
+                        }
+
                }
 
 }
