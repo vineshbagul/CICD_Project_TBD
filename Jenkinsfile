@@ -24,18 +24,21 @@ pipeline {
                 }
             }
 
-            stage('Quality Gate status') {
 
-                steps {
+         }
 
-                    script {
-                        waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
-                    }
+        stage('Quality Gate status') {
+
+            steps {
+
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
                 }
             }
+        }
 
 
-            //                stage('Docker build and docker push to nexus repo')
+        //                stage('Docker build and docker push to nexus repo')
 //
 //                    steps{
 //
@@ -45,8 +48,6 @@ pipeline {
 //                    }
 //
 //               }
-
-        }
 
 
 
