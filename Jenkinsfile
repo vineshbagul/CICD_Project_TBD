@@ -1,41 +1,52 @@
 
 pipeline {
 
-        agent any
+    agent any
 
-        stages{
+    stages {
 
-                      stage('Sonarqube quality check'){
+        stage('Sonarqube quality check') {
 
-                            agent{
+            agent {
 
-                                docker {
-                                   image 'maven'
-                                }
-                            }
+                docker {
+                    image 'maven'
+                }
+            }
 
-                          steps{
+            steps {
 
-                              script{
-                                          withSonarQubeEnv(credentialsId: 'sonar-token') {
-                                            sh 'mvn clean package sonar:sonar'
-                                          }
+                script {
+                    withSonarQubeEnv(credentialsId: 'sonar-token') {
+                        sh 'mvn clean package sonar:sonar'
+                    }
 
-                              }
-                          }
+                }
+            }
 
-                      }
+        }
 
-                        stage('Quality Gate status'){
+        stage('Quality Gate status') {
 
-                            steps{
+            steps {
 
-                                script{
-                                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
-                                }
-                            }
-                        }
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
+                }
+            }
+        }
 
-               }
+//                stage('Docker build and docker push to nexus repo')
+//
+//                    steps{
+//
+//                        script {
+//
+//                        }
+//                    }
+//
+//               }
+
+    }
 
 }
